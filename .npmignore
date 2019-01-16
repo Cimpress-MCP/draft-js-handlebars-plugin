@@ -1,6 +1,8 @@
 node_modules
 src
+stories
 .travis.yml
 .eslintrc.yml
 .gitignore
 .babelrc
+.storybook

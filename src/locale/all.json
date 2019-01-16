@@ -1,0 +1,16 @@
+{
+    "eng": {
+      "placeholders": {
+        "explain_auxiliary_placeholders": "Auxiliary placeholders are not converted to content themselves, but they do however control behaviour of the regular placeholders contained within the matching start and end auxiliary placeholder pair",
+        "what_is_this": "What is this?",
+        "explain_placeholders": "Placeholders are holding space for dynamic values that are filled in with specific information every time the template is used"
+      }
+    },
+    "pol": {
+      "placeholders": {
+        "explain_auxiliary_placeholders": "Pomocnicze symbole zastępcze nie są konwertowane bezpośrednio do treści, ale kontrolują zachowanie zwykłych symboli zastępczych zawartych w pomiędzy parą pomocniczych symboli zastępczych.",
+        "what_is_this": "Co to jest?",
+        "explain_placeholders": "Symbole zastępcze zajmują przestrzeń dla dynamicznych wartości, które są wypełniane konkretnymi informacjami za każdym razem, gdy szablon jest używany"
+      }
+    }
+  }

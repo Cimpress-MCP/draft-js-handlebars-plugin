@@ -1,6 +1,7 @@
 import React from 'react';
 import {Tooltip} from '@cimpress/react-components';
-import {Trans} from 'react-i18next';
+import {I18nextProvider, Trans} from 'react-i18next';
+import {getI18nInstance} from './utils/i18n';
 import {selectWholeEntities} from './selectionUtils';
 import './Placeholders.css';
 
@@ -44,14 +45,17 @@ const placeHolderSpan = (props) => {
   if (entity.data.url) {
     decoratedChildren = <a>{props.children}</a>;
   }
-  return <Tooltip className={'placeholderContextHelp'} variety={'popover'} direction={'left'} contents={<div className={'placeholderContextHelp'}>
-    <pre>{entity.data.placeholder}</pre>
-    <Trans i18nKey={auxiliaryPlaceholderClassName ? 'placeholders:explain_auxiliary_placeholders' : 'placeholders:explain_placeholders'} />
-  </div>}>
-    <div className={auxiliaryPlaceholderClassName || 'placeholder'}
-      onMouseUp={(e) => setTimeout(() => selectWholeEntities(props.getEditorState, props.setEditorState), 20)}>
-      {decoratedChildren}</div>
-  </Tooltip>;
+
+  return <I18nextProvider i18n={getI18nInstance()}>
+    <Tooltip className={'placeholderContextHelp'} variety={'popover'} direction={'left'} contents={<div className={'placeholderContextHelp'}>
+      <pre>{entity.data.placeholder}</pre>
+      <Trans i18nKey={auxiliaryPlaceholderClassName ? 'placeholders:explain_auxiliary_placeholders' : 'placeholders:explain_placeholders'} />
+    </div>}>
+      <div className={auxiliaryPlaceholderClassName || 'placeholder'}
+        onMouseUp={(e) => setTimeout(() => selectWholeEntities(props.getEditorState, props.setEditorState), 20)}>
+        {decoratedChildren}</div>
+    </Tooltip>
+  </I18nextProvider>;
 };
 
 export default {
