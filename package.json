@@ -20,7 +20,7 @@
     "plugin",
     "handlebars"
   ],
-  "author": "Victor Cuena <vcuenagarcia@cimpress.com>",
+  "author": "TrdelnikSquad@cimpress.com",
   "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
