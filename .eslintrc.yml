@@ -1,0 +1,19 @@
+extends: 
+  - google
+  - plugin:react/recommended
+env:
+  es6: 1
+rules:
+  require-jsdoc: 0
+  valid-jsdoc: 0
+  max-len: [error, 150]
+  operator-linebreak: [2, "before"]
+  react/prop-types: 0
+parserOptions:
+  ecmaVersion: 2017
+  sourceType: "module"
+  ecmaFeatures:
+    jsx: true
+settings:
+  react:
+    version: "detect"

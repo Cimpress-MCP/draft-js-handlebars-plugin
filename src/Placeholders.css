@@ -1,0 +1,41 @@
+.auxiliaryPlaceholderOpen, .auxiliaryPlaceholderClose, .placeholder {
+    display: inline-block;
+    padding: 3px;
+    margin: 1px 2px 1px 2px;
+    color: #FFF;
+    font-family: monospace;
+    border-radius: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle; 
+}
+
+.auxiliaryPlaceholderOpen, .auxiliaryPlaceholderClose {
+    background-color: #c4cdd6;
+    border: 1px solid #8090a2; 
+}
+
+.placeholder {
+    border-color: #c4cdd6;
+    background-color: #8090a2; 
+}
+
+.auxiliaryPlaceholderOpen {
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+    border-right: 4px double #fff; 
+}
+
+.auxiliaryPlaceholderClose {
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+    border-left: 4px double #fff; 
+}
+
+.placeholderContextHelp {
+    max-width: 400px !important; 
+}
+
+.placeholderContextHelp > pre {
+    white-space: pre-wrap; 
+}
