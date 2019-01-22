@@ -6,3 +6,4 @@ stories
 .gitignore
 .babelrc
 .storybook
+jest.config.js

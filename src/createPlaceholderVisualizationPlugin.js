@@ -2,8 +2,8 @@ import {Modifier, EditorState, SelectionState} from 'draft-js';
 import {getEntityRange} from 'draftjs-utils';
 import {handleDraftEditorPastedText} from 'draftjs-conductor';
 import placeholderVisualizationDecorator from './decorator';
-import {selectWholeEntities, moveBehindEntity} from './selectionUtils';
-import createPlaceholderEntity from './insertPlaceholderEntity';
+import selectionUtils from './selectionUtils';
+import insertPlaceholderEntity from './insertPlaceholderEntity';
 
 const PLACEHOLDER_REGEX = /[{]?{{[^{}]*}}[}]?/g;
 
@@ -33,7 +33,7 @@ function handleInCaseOfPlaceholderEntity(editorState, setEditorState, produceNew
   if (isPlaceholderAt(entityStart) || isPlaceholderAt(entityEnd)) {
     const rangeStart = getEntityRange(state, entityStart);
     if (!selection.isCollapsed || (rangeStart && startOffset > rangeStart.start)) {
-      const newEditorState = moveBehindEntity(entityEnd || entityStart, editorState);
+      const newEditorState = selectionUtils.moveBehindEntity(entityEnd || entityStart, editorState);
       setEditorState(produceNewEditorState(newEditorState));
       return 'handled';
     }
@@ -66,37 +66,7 @@ function findWithRegex(regex, contentBlock, callback) {
 
 export default (config = {}) => {
   return {
-    decorators: [
-      placeholderVisualizationDecorator,
-    ],
-    onDownArrow: (event, {getEditorState, setEditorState}) => {
-      if (event.shiftKey) {
-        if (selectWholeEntities(getEditorState, setEditorState)) {
-          event.preventDefault();
-        }
-      }
-    },
-    onUpArrow: (event, {getEditorState, setEditorState}) => {
-      if (event.shiftKey) {
-        if (selectWholeEntities(getEditorState, setEditorState)) {
-          event.preventDefault();
-        }
-      }
-    },
-    onRightArrow: (event, {getEditorState, setEditorState}) => {
-      if (event.shiftKey) {
-        if (selectWholeEntities(getEditorState, setEditorState, false)) {
-          event.preventDefault();
-        }
-      }
-    },
-    onLeftArrow: (event, {getEditorState, setEditorState}) => {
-      if (event.shiftKey) {
-        if (selectWholeEntities(getEditorState, setEditorState, true)) {
-          event.preventDefault();
-        }
-      }
-    },
+    decorators: [placeholderVisualizationDecorator],
     /**
      * Overriding the handle return, so that pressing "enter" when the caret is on the placeholder
      * wouldn't split the text in half (wouldn't split the block)
@@ -181,42 +151,44 @@ export default (config = {}) => {
      * @param setEditorState
      * @returns {*}
      */
-    onChange: (editorState, {getEditorState, setEditorState}) => {
-      let currentContent = editorState.getCurrentContent();
-      currentContent.getBlockMap().map((block, i) => {
-        const blockKey = block.getKey();
-        const ranges = findWithRegex(PLACEHOLDER_REGEX, block);
-        return ranges.map((range, i) => {
-          currentContent = editorState.getCurrentContent();
-          block = currentContent.getBlockForKey(block.getKey());
-          const ranges = findWithRegex(PLACEHOLDER_REGEX, block);
-          range = ranges[0];
-          const start = range.start;
-          const end = range.end;
-          const text = block.getText().substring(start, end);
-          const selection = new SelectionState({
-            anchorKey: blockKey,
-            anchorOffset: start,
-            focusKey: blockKey,
-            focusOffset: end,
+    onChange: (editorState) => {
+      const contentState = editorState.getCurrentContent();
+      let newEditorState = editorState;
+      contentState
+          .getBlockMap()
+          .map((originalBlock) => {
+            const blockKey = originalBlock.getKey();
+            const ranges = findWithRegex(PLACEHOLDER_REGEX, originalBlock);
+            return ranges
+                .forEach(() => {
+                  const currentContent = newEditorState.getCurrentContent();
+                  const currentBlock = currentContent.getBlockForKey(blockKey);
+                  const range = findWithRegex(PLACEHOLDER_REGEX, currentBlock)[0];
+                  const start = range.start;
+                  const end = range.end;
+                  const entityKey = currentBlock.getEntityAt(start);
+                  let entity = null;
+                  let link = null;
+                  if (entityKey !== null) {
+                    entity = currentContent.getEntity(entityKey);
+                    link = entity.data.url;
+                  }
+                  if (entity === null || entity.getType() === 'LINK') {
+                    const text = currentBlock.getText().substring(start, end);
+                    const selection = new SelectionState({
+                      anchorKey: blockKey,
+                      anchorOffset: start,
+                      focusKey: blockKey,
+                      focusOffset: end,
+                    });
+
+                    const newContentState = insertPlaceholderEntity(currentContent, text, selection, newEditorState.getCurrentInlineStyle(), link);
+                    newEditorState = EditorState.push(newEditorState, newContentState, 'apply-entity');
+                  }
+                  return newEditorState;
+                });
           });
-          const entityKey = block.getEntityAt(start);
-          let entity = null;
-          let link = null;
-          if (entityKey !== null) {
-            entity = currentContent.getEntity(entityKey);
-            link = entity.data.url;
-          }
-          if (entity === null || entity.getType() === 'LINK') {
-            editorState = EditorState.forceSelection(editorState, selection);
-            const newContentState = createPlaceholderEntity(currentContent, text, selection, editorState.getCurrentInlineStyle(),
-                link);
-            editorState = EditorState.push(editorState, newContentState, 'remove-range');
-          }
-          return editorState;
-        });
-      });
-      return editorState;
+      return newEditorState;
     },
   };
 };

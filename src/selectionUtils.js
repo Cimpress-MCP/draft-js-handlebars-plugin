@@ -1,4 +1,4 @@
-import {EditorState} from 'draft-js';
+import {EditorState, SelectionState} from 'draft-js';
 import {getEntityRange} from 'draftjs-utils';
 
 /** *
@@ -8,7 +8,7 @@ import {getEntityRange} from 'draftjs-utils';
  * @param editorState
  * @returns {*}
  */
-export const moveBehindEntity = (entityKey, editorState) => {
+const moveBehindEntity = (entityKey, editorState) => {
   const selectionState = editorState.getSelection();
   const anchorKey = selectionState.getAnchorKey();
   const range = getEntityRange(editorState, entityKey);
@@ -31,7 +31,7 @@ export const moveBehindEntity = (entityKey, editorState) => {
  * @param setEditorState
  * @param traversingLeft
  */
-export const selectWholeEntities = (getEditorState, setEditorState, traversingLeft = true) => {
+const selectWholeEntities = (getEditorState, setEditorState, traversingLeft = true) => {
   const editorState = getEditorState();
   const selection = editorState.getSelection();
   const content = editorState.getCurrentContent();
@@ -62,3 +62,7 @@ export const selectWholeEntities = (getEditorState, setEditorState, traversingLe
   return entityAnchor || entityFocus;
 };
 
+export default {
+  selectWholeEntities,
+  moveBehindEntity,
+};

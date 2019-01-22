@@ -33,9 +33,12 @@
 }
 
 .placeholderContextHelp {
-    max-width: 400px !important; 
+    max-width: 400px !important;
 }
 
 .placeholderContextHelp > pre {
     white-space: pre-wrap; 
+}
+.placeholder-wrapper .tether-tooltip-target {
+    display: inline-flex !important;
 }

@@ -2,11 +2,10 @@ import React from 'react';
 import {Tooltip} from '@cimpress/react-components';
 import {I18nextProvider, Trans} from 'react-i18next';
 import {getI18nInstance} from './utils/i18n';
-import {selectWholeEntities} from './selectionUtils';
 import './Placeholders.css';
 
 /**
- * Decorator strategy defines how we are finding elements a decorator shiould be applied to
+ * Decorator strategy defines how we are finding elements a decorator should be applied to
  * In this case, we are taking all entities of type PLACEHOLDER
  *
  * @param contentBlock
@@ -17,10 +16,7 @@ const placeholderEntityVisualizationStrategy = (contentBlock, callback, contentS
   contentBlock.findEntityRanges(
       (character) => {
         const entityKey = character.getEntity();
-        return (
-          entityKey !== null
-                && contentState.getEntity(entityKey).getType() === 'PLACEHOLDER'
-        );
+        return entityKey !== null && contentState.getEntity(entityKey).getType() === 'PLACEHOLDER';
       },
       callback
   );
@@ -47,14 +43,18 @@ const placeHolderSpan = (props) => {
   }
 
   return <I18nextProvider i18n={getI18nInstance()}>
-    <Tooltip className={'placeholderContextHelp'} variety={'popover'} direction={'left'} contents={<div className={'placeholderContextHelp'}>
-      <pre>{entity.data.placeholder}</pre>
-      <Trans i18nKey={auxiliaryPlaceholderClassName ? 'placeholders:explain_auxiliary_placeholders' : 'placeholders:explain_placeholders'} />
-    </div>}>
-      <div className={auxiliaryPlaceholderClassName || 'placeholder'}
-        onMouseUp={(e) => setTimeout(() => selectWholeEntities(props.getEditorState, props.setEditorState), 20)}>
-        {decoratedChildren}</div>
-    </Tooltip>
+    <span className='placeholder-wrapper'>
+      &zwj;
+      <Tooltip className={'placeholderContextHelp'} variety={'popover'} direction={'left'} contents={<div className={'placeholderContextHelp'}>
+        <pre>{entity.data.placeholder}</pre>
+        <Trans i18nKey={auxiliaryPlaceholderClassName ? 'placeholders:explain_auxiliary_placeholders' : 'placeholders:explain_placeholders'} />
+      </div>}>
+        <div className={auxiliaryPlaceholderClassName || 'placeholder'} contentEditable={false}>
+          {decoratedChildren}
+        </div>
+      </Tooltip>
+      &zwj;
+    </span>
   </I18nextProvider>;
 };
 
