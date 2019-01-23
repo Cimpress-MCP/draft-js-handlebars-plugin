@@ -44,7 +44,6 @@ const placeHolderSpan = (props) => {
 
   return <I18nextProvider i18n={getI18nInstance()}>
     <span className='placeholder-wrapper'>
-      &zwj;
       <Tooltip className={'placeholderContextHelp'} variety={'popover'} direction={'left'} contents={<div className={'placeholderContextHelp'}>
         <pre>{entity.data.placeholder}</pre>
         <Trans i18nKey={auxiliaryPlaceholderClassName ? 'placeholders:explain_auxiliary_placeholders' : 'placeholders:explain_placeholders'} />
@@ -53,7 +52,6 @@ const placeHolderSpan = (props) => {
           {decoratedChildren}
         </div>
       </Tooltip>
-      &zwj;
     </span>
   </I18nextProvider>;
 };
