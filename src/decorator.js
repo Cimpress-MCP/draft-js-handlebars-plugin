@@ -49,7 +49,7 @@ const placeHolderSpan = (props) => {
         <pre>{entity.data.placeholder}</pre>
         <Trans i18nKey={auxiliaryPlaceholderClassName ? 'placeholders:explain_auxiliary_placeholders' : 'placeholders:explain_placeholders'} />
       </div>}>
-        <div className={auxiliaryPlaceholderClassName || 'placeholder'} contentEditable={false}>
+        <div className={auxiliaryPlaceholderClassName || 'placeholder'}>
           {decoratedChildren}
         </div>
       </Tooltip>

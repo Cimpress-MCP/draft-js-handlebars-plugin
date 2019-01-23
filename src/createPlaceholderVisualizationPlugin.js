@@ -183,7 +183,13 @@ export default (config = {}) => {
                     });
 
                     const newContentState = insertPlaceholderEntity(currentContent, text, selection, newEditorState.getCurrentInlineStyle(), link);
+                    const newEntity = newContentState.getEntity(newContentState.getLastCreatedEntityKey());
+                    const cursorOn = start + newEntity.data.display.length;
                     newEditorState = EditorState.push(newEditorState, newContentState, 'apply-entity');
+                    newEditorState = EditorState.forceSelection(newEditorState, selection.merge({
+                      anchorOffset: cursorOn,
+                      focusOffset: cursorOn,
+                    }));
                   }
                   return newEditorState;
                 });
