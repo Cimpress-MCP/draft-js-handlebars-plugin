@@ -1,9 +1,10 @@
 import {Modifier, EditorState, SelectionState} from 'draft-js';
 import {getEntityRange} from 'draftjs-utils';
 import {handleDraftEditorPastedText} from 'draftjs-conductor';
-import placeholderVisualizationDecorator from './decorator';
+import Placeholder from './Placeholder';
 import selectionUtils from './selectionUtils';
 import insertPlaceholderEntity from './insertPlaceholderEntity';
+import decoratorStrategy from './decoratorStrategy';
 
 const PLACEHOLDER_REGEX = /[{]?{{[^{}]*}}[}]?/g;
 
@@ -66,7 +67,10 @@ function findWithRegex(regex, contentBlock, callback) {
 
 export default (config = {}) => {
   return {
-    decorators: [placeholderVisualizationDecorator],
+    decorators: [{
+      strategy: decoratorStrategy,
+      component: Placeholder
+    }],
     /**
      * Overriding the handle return, so that pressing "enter" when the caret is on the placeholder
      * wouldn't split the text in half (wouldn't split the block)

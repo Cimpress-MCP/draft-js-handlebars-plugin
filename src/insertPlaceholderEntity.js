@@ -25,7 +25,7 @@ export default function insertPlaceholderEntity(currentContent, placeholderText,
   const subType = placeholderText.includes('{{#') ? 'open' : placeholderText.includes('{{/') ? 'close' : null;
   let displayText;
   if (placeholderText.includes(' ')) {
-    displayText = `${placeholderText.split(' ')[0]} ★️`;
+    displayText = `ƒ(x) ${placeholderText.split(' ')[0]}`;
   } else if (placeholderText.length > 5 && placeholderText.includes('.')) {
     displayText = placeholderText.split('.').slice(-1).pop();
   } else {

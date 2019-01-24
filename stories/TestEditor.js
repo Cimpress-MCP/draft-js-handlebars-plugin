@@ -22,7 +22,7 @@ export default class TestEditor extends Component {
   }
 
   render() {
-    return <div style={{ margin: '60px' }}>
+    return <div style={{ margin: '60px', backgroundColor: 'white', padding: '20px' }}>
       <Editor
         spellCheck
         ref={(b) => this.editor = b}
