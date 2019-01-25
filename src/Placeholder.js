@@ -1,57 +1,64 @@
-import React, { Component } from 'react';
-import { EditorState } from 'draft-js';
-import { Tooltip, TextField, Button } from '@cimpress/react-components';
-import { I18nextProvider, Trans } from 'react-i18next';
-import { getI18nInstance } from './utils/i18n';
+import React, {Component} from 'react';
+import {Tooltip} from '@cimpress/react-components';
+import PlaceholderTooltipHelper from './PlaceholderTooltipHelper';
 import './Placeholders.css';
 
 export default class Placeholder extends Component {
-    constructor(props) {
-        super(props)
-        //this.hangleChange = this.hangleChange.bind(this)
+  render() {
+    const {contentState, children, entityKey} = this.props;
+    const entityData = contentState.getEntity(entityKey).data;
+    const subTypes = entityData.subTypes;
+    let auxiliaryClassName = '';
+    let showPlaceholder = true;
+    const descriptions = [];
+
+    if (!subTypes.length) {
+      descriptions.push({
+        title: 'placeholders:placeholder',
+        description: 'placeholders:explain_placeholders',
+      });
+    } else if (subTypes.includes('open')) {
+      descriptions.push({
+        title: 'placeholders:block_expression',
+        description: 'placeholders:explain_opening_block_expression',
+      });
+      auxiliaryClassName = 'auxiliaryPlaceholderOpen';
+    } else if (subTypes.includes('close')) {
+      descriptions.push({
+        title: 'placeholders:closing_block_expression',
+      });
+      auxiliaryClassName = 'auxiliaryPlaceholderClose';
+      showPlaceholder = false;
+    }
+    if (subTypes.includes('noEscapeHtml')) {
+      descriptions.push({
+        title: 'placeholders:no_escape_html',
+        description: 'placeholders:explain_no_escape_html',
+      });
     }
 
-    /*hangleChange(e) {
-        e.preventDefault()
-        const { getEditorState, contentState, entityKey } = this.props
-        const editorState = getEditorState()
-
-        const newContentState = contentState.mergeEntityData(entityKey, {
-            placeholder: e.target.value
-        })
-        const newEditorState = EditorState.push(editorState, newContentState, 'apply-entity')
-        this.props.setEditorState(newEditorState);
-    }*/
-
-    render() {
-        const { contentState, children, entityKey } = this.props
-        const entity = contentState.getEntity(entityKey);
-        let auxiliaryPlaceholderClassName = '';
-        if (entity.data.subType === 'open') {
-            auxiliaryPlaceholderClassName = 'auxiliaryPlaceholderOpen';
-        } else if (entity.data.subType === 'close') {
-            auxiliaryPlaceholderClassName = 'auxiliaryPlaceholderClose';
-        }
-        let decoratedChildren = children;
-        if (entity.data.url) {
-            decoratedChildren = <a>{children}</a>;
-        }
-
-        return <I18nextProvider i18n={getI18nInstance()}>
-            <span className={`'placeholder-wrapper`}>
-                <Tooltip className={'placeholderContextHelp'} variety={'popover'} direction={'top'} contents={<div className={'placeholderContextHelp'}>
-                    <TextField
-                        onClick={(e) => e.preventDefault()}
-                        //onChange={this.hangleChange}
-                        value={entity.data.placeholder}
-                    />
-                    <Trans i18nKey={auxiliaryPlaceholderClassName ? 'placeholders:explain_auxiliary_placeholders' : 'placeholders:explain_placeholders'} />
-                </div>}>
-                    <div className={auxiliaryPlaceholderClassName || 'placeholder'}>
-                        {decoratedChildren}
-                    </div>
-                </Tooltip>
-            </span>
-        </I18nextProvider>;
+    if (subTypes.includes('formula')) {
+      descriptions.push({
+        title: 'placeholders:formula',
+        description: 'placeholders:explain_formula',
+      });
     }
+
+    return <span className={`placeholder-wrapper`}>
+      <Tooltip
+        className={'placeholderContextHelp'}
+        variety={'popover'}
+        direction={'top'}
+        contents={
+          <PlaceholderTooltipHelper
+            placeholder={entityData.placeholder}
+            descriptions={descriptions}
+            showPlaceholder={showPlaceholder} />
+        }>
+        <div className={auxiliaryClassName || 'placeholder'}>
+          {!entityData.url ? children : <a>{children}</a>}
+        </div>
+      </Tooltip>
+    </span>;
+  }
 }

@@ -1,10 +1,10 @@
 import {Modifier, EditorState, SelectionState} from 'draft-js';
 import {getEntityRange} from 'draftjs-utils';
 import {handleDraftEditorPastedText} from 'draftjs-conductor';
-import Placeholder from './Placeholder';
 import selectionUtils from './selectionUtils';
 import insertPlaceholderEntity from './insertPlaceholderEntity';
 import decoratorStrategy from './decoratorStrategy';
+import Placeholder from './Placeholder';
 
 const PLACEHOLDER_REGEX = /[{]?{{[^{}]*}}[}]?/g;
 
@@ -69,7 +69,7 @@ export default (config = {}) => {
   return {
     decorators: [{
       strategy: decoratorStrategy,
-      component: Placeholder
+      component: Placeholder,
     }],
     /**
      * Overriding the handle return, so that pressing "enter" when the caret is on the placeholder

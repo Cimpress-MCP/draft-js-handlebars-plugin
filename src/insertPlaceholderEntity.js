@@ -10,6 +10,35 @@ function modifyPlaceholderDisplayText(originalText) {
   return originalText.replace(/[{]{2,3}[#/]?|[}]{2,3}/g, '');
 }
 
+function calculateDisplayText(placeholderText) {
+  const openingBracketsCount = (placeholderText.match(/[{]/g) || []).length;
+  placeholderText = placeholderText.replace(/}+/g, '}'.repeat(openingBracketsCount));
+  let displayText;
+  if (placeholderText.includes(' ')) {
+    displayText = `ƒ(x) ${placeholderText.split(' ')[0]}`;
+  } else if (placeholderText.length > 5 && placeholderText.includes('.')) {
+    displayText = placeholderText.split('.').slice(-1).pop();
+  } else {
+    displayText = placeholderText;
+  }
+  return displayText;
+}
+
+function insertEntity(contentState, selection, entityData, inlineStyle) {
+  const newContentState = contentState.createEntity(
+      'PLACEHOLDER',
+      'IMMUTABLE',
+      entityData
+  );
+  const entityKey = newContentState.getLastCreatedEntityKey();
+  return Modifier.replaceText(
+      newContentState,
+      selection,
+      entityData.display,
+      inlineStyle,
+      entityKey);
+}
+
 /**
  * Returns a new ContentState with the placeholder entity created on the selection specified if provided, if not is added at the end of the editor.
  *
@@ -20,45 +49,34 @@ function modifyPlaceholderDisplayText(originalText) {
  * @param {String} link
  */
 export default function insertPlaceholderEntity(currentContent, placeholderText, selection, inlineStyle, link) {
-  const openingBracketsCount = (placeholderText.match(/[{]/g) || []).length;
-  placeholderText = placeholderText.replace(/}+/g, '}'.repeat(openingBracketsCount));
-  const subType = placeholderText.includes('{{#') ? 'open' : placeholderText.includes('{{/') ? 'close' : null;
-  let displayText;
-  if (placeholderText.includes(' ')) {
-    displayText = `ƒ(x) ${placeholderText.split(' ')[0]}`;
-  } else if (placeholderText.length > 5 && placeholderText.includes('.')) {
-    displayText = placeholderText.split('.').slice(-1).pop();
-  } else {
-    displayText = placeholderText;
-  }
+  const subTypes = [];
   const escapeHtml = !placeholderText.includes('{{{');
-  const finalDisplayText = modifyPlaceholderDisplayText(displayText);
-  const entityData = {
-    subType: subType,
-    placeholder: modifyPlaceholderDisplayText(placeholderText),
-    escapeHtml: escapeHtml,
-    url: link,
-    display: escapeHtml ? finalDisplayText : `⌘ ${finalDisplayText}`,
-  };
-  const contentStateWithEntity = currentContent.createEntity(
-      'PLACEHOLDER',
-      'IMMUTABLE',
-      entityData
-  );
-  const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-  if (selection) {
-    return Modifier.replaceText(
-        contentStateWithEntity,
-        selection,
-        entityData.display,
-        inlineStyle,
-        entityKey
-    );
+  const placeholder = modifyPlaceholderDisplayText(placeholderText);
+  let display = calculateDisplayText(placeholderText);
+  display = modifyPlaceholderDisplayText(display);
+  display = escapeHtml ? display : `˂୵˃ ${display}`;
+
+  if (placeholderText.includes('{{#')) {
+    subTypes.push('open');
+  } else if (placeholderText.includes('{{/')) {
+    subTypes.push('close');
   }
-  return Modifier.insertText(
-      currentContent,
-      selection,
-      entityData.display,
-      inlineStyle,
-      entityKey);
+
+  if (!escapeHtml) {
+    subTypes.push('noEscapeHtml');
+  }
+
+  if (placeholderText.includes(' ')) {
+    subTypes.push('formula');
+  }
+
+  const entityData = {
+    url: link,
+    subTypes,
+    placeholder,
+    escapeHtml,
+    display,
+  };
+
+  return insertEntity(currentContent, selection, entityData, inlineStyle);
 }

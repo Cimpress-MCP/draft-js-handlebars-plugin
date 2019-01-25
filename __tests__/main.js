@@ -56,7 +56,7 @@ describe('Plugin renders properly', () => {
                 display: "name",
                 escapeHtml: true,
                 placeholder: "name",
-                subType: null,
+                subTypes: [],
                 url: null
             },
             mutability: "IMMUTABLE",
@@ -82,7 +82,7 @@ describe('Plugin renders properly', () => {
                 display: "name",
                 escapeHtml: true,
                 placeholder: "name",
-                subType: null,
+                subTypes: [],
                 url: null
             },
             mutability: "IMMUTABLE",
@@ -109,12 +109,12 @@ describe('Plugin renders properly', () => {
         expect(Object.keys(content.entityMap).length).toEqual(3);
         expect(content.entityMap[0].data.display).toEqual('people');
         expect(content.entityMap[0].data.placeholder).toEqual('people');
-        expect(content.entityMap[0].data.subType).toEqual('open');
+        expect(content.entityMap[0].data.subTypes[0]).toEqual('open');
         expect(content.entityMap[1].data.display).toEqual('name');
         expect(content.entityMap[1].data.placeholder).toEqual('name');
         expect(content.entityMap[2].data.display).toEqual('people');
         expect(content.entityMap[2].data.placeholder).toEqual('people');
-        expect(content.entityMap[2].data.subType).toEqual('close');
+        expect(content.entityMap[2].data.subTypes[0]).toEqual('close');
     });
 
     test('with escaped html', () => {
@@ -125,17 +125,17 @@ describe('Plugin renders properly', () => {
         const content = convertToRaw(contentState);
 
         expect(content.blocks.length).toEqual(1);
-        expect(content.blocks[0].text).toEqual('⌘ desc');
+        expect(content.blocks[0].text).toEqual('˂୵˃ desc');
         expect(content.blocks[0].entityRanges).toEqual([
-            { "key": 0, "length": 6, "offset": 0 }
+            { "key": 0, "length": 8, "offset": 0 }
         ]);
         expect(Object.keys(content.entityMap).length).toEqual(1);
         expect(content.entityMap[0]).toEqual({
             data: {
-                display: "⌘ desc",
+                display: "˂୵˃ desc",
                 escapeHtml: false,
                 placeholder: "desc",
-                subType: null,
+                subTypes: ['noEscapeHtml'],
                 url: null
             },
             mutability: "IMMUTABLE",
@@ -152,17 +152,17 @@ describe('Plugin renders properly', () => {
         const content = convertToRaw(contentState);
 
         expect(content.blocks.length).toEqual(1);
-        expect(content.blocks[0].text).toEqual('eq ★️');
+        expect(content.blocks[0].text).toEqual('ƒ(x) eq');
         expect(content.blocks[0].entityRanges).toEqual([
-            { "key": 0, "length": 5, "offset": 0 }
+            { "key": 0, "length": 7, "offset": 0 }
         ]);
         expect(Object.keys(content.entityMap).length).toEqual(1);
         expect(content.entityMap[0]).toEqual({
             data: {
-                display: "eq ★️",
+                display: "ƒ(x) eq",
                 escapeHtml: true,
                 placeholder: "eq name \"Victor\"",
-                subType: 'open',
+                subTypes: ['open', 'formula'],
                 url: null
             },
             mutability: "IMMUTABLE",

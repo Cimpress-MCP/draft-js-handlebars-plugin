@@ -4,6 +4,4 @@ stories
 .travis.yml
 .eslintrc.yml
 .gitignore
-.babelrc
 .storybook
-jest.config.js
