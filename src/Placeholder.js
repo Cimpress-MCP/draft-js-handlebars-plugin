@@ -30,7 +30,7 @@ export default class Placeholder extends Component {
       auxiliaryClassName = 'auxiliaryPlaceholderClose';
       showPlaceholder = false;
     }
-    if (subTypes.includes('noEscapeHtml')) {
+    if (subTypes.includes('noEscapeHtml') && !subTypes.includes('close')) {
       descriptions.push({
         title: 'placeholders:no_escape_html',
         description: 'placeholders:explain_no_escape_html',
