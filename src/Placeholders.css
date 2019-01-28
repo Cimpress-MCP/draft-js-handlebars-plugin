@@ -1,12 +1,10 @@
 .auxiliaryPlaceholderOpen, .auxiliaryPlaceholderClose, .placeholder {
     display: inline-block;
-    padding: 3px;
     color: #FFF;
-    font-family: monospace;
     border-radius: 3px;
     white-space: nowrap;
     overflow: hidden;
-    vertical-align: middle; /* Italic needs 1px more of padding on the right side */
+    vertical-align: middle;
     padding: 0px 4px 0px 4px;
     margin: 0px 1px 0px 1px;
 }
@@ -14,12 +12,10 @@
 .auxiliaryPlaceholderOpen, .auxiliaryPlaceholderClose {
     background-color: #c4cdd6;
     color: black;
-    border: 1px solid #8090a2;
 }
 
 .placeholder {
     background-color: #41b5dc;
-
 }
 
 .placeholder a {
@@ -43,6 +39,7 @@
 .placeholderContextHelp > pre {
     white-space: pre-wrap; 
 }
+
 .placeholder-wrapper .tether-tooltip-target {
     display: inline-flex !important;
 }
