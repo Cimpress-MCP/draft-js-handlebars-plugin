@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import Editor from 'draft-js-plugins-editor';
 import { EditorState, ContentState } from 'draft-js';
+import {registerCopySource} from 'draftjs-conductor';
 
 import createPlaceholderVisualizationPlugin from '../src/index';
 import '../src/Placeholders.css';
@@ -15,6 +16,15 @@ export default class TestEditor extends Component {
 
     this.plugins = [createPlaceholderVisualizationPlugin()];
     this.onChange = this.onChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.copySource = registerCopySource(this.editor.getEditorRef());
+  }
+  componentWillUnmount() {
+    if (this.copySource) {
+      this.copySource.unregister();
+    }
   }
 
   onChange(editorState) {

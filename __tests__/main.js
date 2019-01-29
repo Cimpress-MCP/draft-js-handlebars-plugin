@@ -152,14 +152,14 @@ describe('Plugin renders properly', () => {
         const content = convertToRaw(contentState);
 
         expect(content.blocks.length).toEqual(1);
-        expect(content.blocks[0].text).toEqual('ƒ(x) eq');
+        expect(content.blocks[0].text).toEqual('eq(…)');
         expect(content.blocks[0].entityRanges).toEqual([
-            { "key": 0, "length": 7, "offset": 0 }
+            { "key": 0, "length": 5, "offset": 0 }
         ]);
         expect(Object.keys(content.entityMap).length).toEqual(1);
         expect(content.entityMap[0]).toEqual({
             data: {
-                display: "ƒ(x) eq",
+                display: "eq(…)",
                 escapeHtml: true,
                 placeholder: "eq name \"Victor\"",
                 subTypes: ['open', 'formula'],
