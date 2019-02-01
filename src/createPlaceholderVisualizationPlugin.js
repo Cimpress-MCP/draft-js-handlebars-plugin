@@ -1,3 +1,4 @@
+import React from 'react';
 import {Modifier, EditorState, SelectionState} from 'draft-js';
 import {getEntityRange} from 'draftjs-utils';
 import {handleDraftEditorPastedText} from 'draftjs-conductor';
@@ -51,15 +52,12 @@ function handleInCaseOfPlaceholderEntity(editorState, setEditorState, produceNew
  * @param callback
  * @returns {Array}
  */
-function findWithRegex(regex, contentBlock, callback) {
+function findWithRegex(regex, contentBlock) {
   const text = contentBlock.getText();
   let matchArr; let start;
   const range = [];
   while ((matchArr = regex.exec(text)) !== null) {
     start = matchArr.index;
-    if (callback) {
-      callback(null, {start: start, end: start + matchArr[0].length});
-    }
     range.push({start: start, end: start + matchArr[0].length});
   }
   return range;
@@ -69,7 +67,16 @@ export default (config = {}) => {
   return {
     decorators: [{
       strategy: decoratorStrategy,
-      component: Placeholder,
+      component: (props) => {
+        const {contentState, children, entityKey} = props;
+        const entityData = contentState.getEntity(entityKey).data;
+        const data = {
+          placeholder: entityData.placeholder,
+          url: entityData.url,
+          display: children,
+        };
+        return <Placeholder {...data} />;
+      },
     }],
     /**
      * Overriding the handle return, so that pressing "enter" when the caret is on the placeholder

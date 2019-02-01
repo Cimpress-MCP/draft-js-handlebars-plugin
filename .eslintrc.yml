@@ -9,6 +9,7 @@ rules:
   max-len: [error, 150]
   operator-linebreak: [2, "before"]
   react/prop-types: 0
+  react/display-name: 0
 parserOptions:
   ecmaVersion: 2017
   sourceType: "module"

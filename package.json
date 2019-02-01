@@ -1,6 +1,6 @@
 {
   "name": "draft-js-handlebars-plugin",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Draft js plugin for visualizing and editing handlebars code in a user friendly way.",
   "main": "lib/index.js",
   "files": [

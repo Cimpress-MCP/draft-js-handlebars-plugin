@@ -54,8 +54,7 @@ describe('Plugin renders properly', () => {
         expect(content.entityMap[0]).toEqual({
             data: {
                 display: "name",
-                escapeHtml: true,
-                placeholder: "name",
+                placeholder: "{{name}}",
                 subTypes: [],
                 url: null
             },
@@ -80,8 +79,7 @@ describe('Plugin renders properly', () => {
         expect(content.entityMap[0]).toEqual({
             data: {
                 display: "name",
-                escapeHtml: true,
-                placeholder: "name",
+                placeholder: "{{name}}",
                 subTypes: [],
                 url: null
             },
@@ -108,12 +106,12 @@ describe('Plugin renders properly', () => {
         ]);
         expect(Object.keys(content.entityMap).length).toEqual(3);
         expect(content.entityMap[0].data.display).toEqual('people');
-        expect(content.entityMap[0].data.placeholder).toEqual('people');
+        expect(content.entityMap[0].data.placeholder).toEqual('{{#people}}');
         expect(content.entityMap[0].data.subTypes[0]).toEqual('open');
         expect(content.entityMap[1].data.display).toEqual('name');
-        expect(content.entityMap[1].data.placeholder).toEqual('name');
+        expect(content.entityMap[1].data.placeholder).toEqual('{{name}}');
         expect(content.entityMap[2].data.display).toEqual('people');
-        expect(content.entityMap[2].data.placeholder).toEqual('people');
+        expect(content.entityMap[2].data.placeholder).toEqual('{{/people}}');
         expect(content.entityMap[2].data.subTypes[0]).toEqual('close');
     });
 
@@ -133,9 +131,8 @@ describe('Plugin renders properly', () => {
         expect(content.entityMap[0]).toEqual({
             data: {
                 display: "˂୵˃ desc",
-                escapeHtml: false,
-                placeholder: "desc",
-                subTypes: ['noEscapeHtml'],
+                placeholder: "{{{desc}}}",
+                subTypes: ["noEscapeHtml"],
                 url: null
             },
             mutability: "IMMUTABLE",
@@ -160,8 +157,7 @@ describe('Plugin renders properly', () => {
         expect(content.entityMap[0]).toEqual({
             data: {
                 display: "eq(…)",
-                escapeHtml: true,
-                placeholder: "eq name \"Victor\"",
+                placeholder: "{{#eq name \"Victor\"}}",
                 subTypes: ['open', 'formula'],
                 url: null
             },
