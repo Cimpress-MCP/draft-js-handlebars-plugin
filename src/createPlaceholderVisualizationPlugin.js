@@ -193,6 +193,7 @@ export default (config = {}) => {
                       focusOffset: end,
                     });
 
+                    newEditorState = EditorState.forceSelection(newEditorState, selection);
                     const newContentState = insertPlaceholderEntity(currentContent, text, selection, newEditorState.getCurrentInlineStyle(), link);
                     const newEntity = newContentState.getEntity(newContentState.getLastCreatedEntityKey());
                     const cursorOn = start + newEntity.data.display.length;
