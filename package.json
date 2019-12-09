@@ -1,6 +1,6 @@
 {
   "name": "draft-js-handlebars-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Draft js plugin for visualizing and editing handlebars code in a user friendly way.",
   "main": "lib/index.js",
   "files": [
@@ -25,7 +25,7 @@
   "author": "TrdelnikSquad@cimpress.com",
   "license": "MIT",
   "dependencies": {
-    "@babel/polyfill": "^7.2.5",
+    "@babel/polyfill": "^7.7.0",
     "@cimpress/react-components": "^6.0.7",
     "draft-js": "^0.10.5",
     "draftjs-conductor": "^0.3.0",
@@ -35,27 +35,26 @@
     "react-i18next": "^9.0.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.2.3",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/cli": "^7.7.5",
+    "@babel/core": "^7.7.5",
+    "@babel/preset-env": "^7.7.6",
+    "@babel/preset-react": "^7.7.4",
     "@storybook/addon-actions": "^5.2.8",
     "@storybook/addon-links": "^5.2.8",
     "@storybook/addons": "^5.2.8",
     "@storybook/react": "^5.2.8",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^25.0.0",
+    "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.5",
     "draft-js-inline-toolbar-plugin": "^3.0.0",
     "draft-js-plugins-editor": "^2.1.1",
     "draft-js-static-toolbar-plugin": "^3.0.0",
-    "enzyme": "^3.8.0",
-    "enzyme-adapter-react-16": "^1.7.1",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
     "enzyme-to-json": "^3.3.5",
     "eslint": "^5.12.0",
     "eslint-config-google": "^0.11.0",
     "eslint-plugin-react": "^7.12.3",
-    "jest": "^25.0.0",
+    "jest": "^24.9.0",
     "jest-transform-css": "^2.0.0",
     "regenerator-runtime": "^0.13.1"
   }
