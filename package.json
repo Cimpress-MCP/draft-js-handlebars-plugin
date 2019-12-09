@@ -1,6 +1,6 @@
 {
   "name": "draft-js-handlebars-plugin",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Draft js plugin for visualizing and editing handlebars code in a user friendly way.",
   "main": "lib/index.js",
   "files": [
@@ -39,12 +39,12 @@
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
-    "@storybook/addon-actions": "^4.1.6",
-    "@storybook/addon-links": "^4.1.6",
-    "@storybook/addons": "^4.1.6",
-    "@storybook/react": "^4.1.6",
+    "@storybook/addon-actions": "^5.2.8",
+    "@storybook/addon-links": "^5.2.8",
+    "@storybook/addons": "^5.2.8",
+    "@storybook/react": "^5.2.8",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^23.6.0",
+    "babel-jest": "^25.0.0",
     "babel-loader": "^8.0.5",
     "draft-js-inline-toolbar-plugin": "^3.0.0",
     "draft-js-plugins-editor": "^2.1.1",
@@ -55,7 +55,7 @@
     "eslint": "^5.12.0",
     "eslint-config-google": "^0.11.0",
     "eslint-plugin-react": "^7.12.3",
-    "jest": "^23.6.0",
+    "jest": "^25.0.0",
     "jest-transform-css": "^2.0.0",
     "regenerator-runtime": "^0.13.1"
   }
