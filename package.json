@@ -32,6 +32,7 @@
     "draftjs-utils": "^0.9.4",
     "i18next": "^13.1.2",
     "react": "^16.7.0",
+    "react-dom": "^16.7.0",
     "react-i18next": "^9.0.2"
   },
   "devDependencies": {
